@@ -452,6 +452,11 @@
 				CLASSPREFIX = SR;
 				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = Jayztemplier;
+				TargetAttributes = {
+					3F5971001757217000971B9B = {
+						DevelopmentTeam = 2GEQFESG2J;
+					};
+				};
 			};
 			buildConfigurationList = 3F5970FC1757217000971B9B /* Build configuration list for PBXProject "ShakeReport" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -667,6 +672,7 @@
 		3F59713A1757217000971B9B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				DEVELOPMENT_TEAM = 2GEQFESG2J;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\\\"$(SRCROOT)/ShakeReport\\\"",
@@ -676,6 +682,7 @@
 				GCC_PREFIX_HEADER = "ShakeReport/ShakeReport-Prefix.pch";
 				INFOPLIST_FILE = "ShakeReport/ShakeReport-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.papiguy.ShakeReport;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -684,6 +691,7 @@
 		3F59713B1757217000971B9B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				DEVELOPMENT_TEAM = 2GEQFESG2J;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\\\"$(SRCROOT)/ShakeReport\\\"",
@@ -693,6 +701,7 @@
 				GCC_PREFIX_HEADER = "ShakeReport/ShakeReport-Prefix.pch";
 				INFOPLIST_FILE = "ShakeReport/ShakeReport-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.papiguy.ShakeReport;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

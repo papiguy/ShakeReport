@@ -78,13 +78,13 @@
 #if TARGET_IPHONE_SIMULATOR
   UIWindow *window = [SRUIWindow window];
   if (!window) {
-    [NSException raise:CRException format:@"No window for recording has been setup. This probably means you are using the simulator and no CRUIWindow has been constructed. See documentation for help on setting up the CRUIWindow."];
+    [NSException raise:CRException format:@"No sruiWindow for recording has been setup. This probably means you are using the simulator and no CRUIWindow has been constructed. See documentation for help on setting up the CRUIWindow."];
   }
   SRUIViewRecorder *viewRecoder = [[SRUIViewRecorder alloc] initWithView:window size:window.frame.size];
 #else
     UIWindow *window = [SRUIWindow window];
     if (!window) {
-        [NSException raise:CRException format:@"No window for recording has been setup. This probably means you are using the simulator and no CRUIWindow has been constructed. See documentation for help on setting up the CRUIWindow."];
+        [NSException raise:CRException format:@"No sruiWindow for recording has been setup. This probably means you are using the simulator and no CRUIWindow has been constructed. See documentation for help on setting up the CRUIWindow."];
     }
   SRScreenRecorder *viewRecoder = [[SRScreenRecorder alloc] initWithWindow:window];
 #endif
