@@ -98,7 +98,7 @@
         [[SRRecorder sharedRecorder] stop:nil];
     }
 }
-
+#ifdef ENABLE_BACKEND_INTEGRATION
 #pragma mark - URL Connection 
 - (NSMutableURLRequest *)requestForHTTPReportWithTitle:(NSString *)title andMessage:(NSString *)message
 {
@@ -131,7 +131,7 @@
         [self startScreenRecorder];
     }
 }
-
+#endif
 #pragma mark - Mail Attachments
 - (void)addAttachmentsToMailComposer:(MFMailComposeViewController *)mailComposer
 {

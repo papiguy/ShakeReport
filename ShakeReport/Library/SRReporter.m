@@ -21,17 +21,31 @@
 #define kCrashFlag @"kCrashFlag"
 #define SR_LOGS_ENABLED NO
 
-void uncaughtExceptionHandler(NSException *exception) {
-    [[SRReporter reporter] onCrash:exception];
-}
-
+typedef NSString* (^SRCustomInformationBlock)();
+typedef void (^SRMailComperCustomizerBlock)(MFMailComposeViewController * mailComposer);
 
 @interface SRReporter () <UIAlertViewDelegate>
 @property (nonatomic,  strong) MFMailComposeViewController *mailController;
 @property (nonatomic, strong) UIImage *tempScreenshot;
 @property (nonatomic, strong) SRReportLoadingView *loadingView;
 @property (nonatomic, assign) BOOL composerDisplayed;
+@property (readwrite, nonatomic, copy) SRCustomInformationBlock customInformationBlock;
+@property (readwrite, nonatomic, copy) SRMailComperCustomizerBlock mailComposerCustomizerBlock;
+
+
+- (void)saveToCrashFile:(NSString *)crashContent;
+- (void)onCrash:(NSException *)exception;
+
+#ifdef ENABLE_BACKEND_INTEGRATION
+- (NSDictionary *)paramsForHTTPReportWithTitle:(NSString *)title andMessage:(NSString *)message;
+- (NSMutableURLRequest *)requestForHTTPReportWithTitle:(NSString *)title andMessage:(NSString *)message;
+#endif
 @end
+
+void uncaughtExceptionHandler(NSException *exception) {
+    [[SRReporter reporter] onCrash:exception];
+}
+
 
 @implementation SRReporter
 @synthesize mailController;
@@ -124,8 +138,6 @@ void uncaughtExceptionHandler(NSException *exception) {
     if(SR_LOGS_ENABLED) NSLog(@"Send New Report");
     if (_backendURL) {
         _tempScreenshot = [self screenshot];
-//        SRReportViewController *controller = [SRReportViewController composer];
-//        controller.delegate = self;
         SRImageEditorViewController *controller = [SRImageEditorViewController controllerWithImage:_tempScreenshot];
         UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
         if ([navController.navigationBar respondsToSelector:@selector(setTranslucent:)]) {
@@ -299,6 +311,10 @@ void uncaughtExceptionHandler(NSException *exception) {
     return nil;
 }
 
+- (void)setMailComposerCustomizer:(void (^)(MFMailComposeViewController * mailComposer))block{
+    _mailComposerCustomizerBlock = block;
+}
+
 #pragma mark Mail Composer
 - (void)addAttachmentsToMailComposer:(MFMailComposeViewController *)mailComposer
 {
@@ -314,18 +330,21 @@ void uncaughtExceptionHandler(NSException *exception) {
     NSString *viewDump = [self viewHierarchy];
     NSData* viewData = [viewDump dataUsingEncoding:NSUTF8StringEncoding];
     
-    // Crash Report if we registered a crash
-    NSString *crashReport = [self crashReport];
-    if (!crashReport) {
-        crashReport = @"No Crash";
+    if (self.recordsCrashes){
+        // Crash Report if we registered a crash
+        NSString *crashReport = [self crashReport];
+        if (!crashReport) {
+            crashReport = @"No Crash";
+        }
+        NSData* crashData = [crashReport dataUsingEncoding:NSUTF8StringEncoding];
+        [mailComposer addAttachmentData:crashData mimeType:@"text/plain" fileName:@"crash.log"];
     }
-    NSData* crashData = [crashReport dataUsingEncoding:NSUTF8StringEncoding];
     
-    // We attache all the information to the email
+    // We attach all the information to the email
     [mailComposer addAttachmentData:imageData mimeType:@"image/jpeg" fileName:@"screenshot.jpeg"];
     [mailComposer addAttachmentData:logsData mimeType:@"text/plain" fileName:@"console.log"];
     [mailComposer addAttachmentData:viewData mimeType:@"text/plain" fileName:@"viewDump.log"];
-    [mailComposer addAttachmentData:crashData mimeType:@"text/plain" fileName:@"crash.log"];
+    
     NSString *message = [NSString stringWithFormat:@"Hey! I noticed something wrong with the app, here is some information.\nDevice model: %@\nOS version:%@", [self systemInformation][@"device_model"], [self systemInformation][@"os_version"]];
     [mailComposer setMessageBody:message isHTML:NO];
     
@@ -334,6 +353,10 @@ void uncaughtExceptionHandler(NSException *exception) {
     if (additionalInformation) {
         NSData* additionalInformationData = [additionalInformation dataUsingEncoding:NSUTF8StringEncoding];
         [mailComposer addAttachmentData:additionalInformationData mimeType:@"text/plain" fileName:@"additionalInformation.log"];
+    }
+    
+    if (self.mailComposerCustomizerBlock != nil){
+        self.mailComposerCustomizerBlock(mailComposer);
     }
 }
 
@@ -345,7 +368,7 @@ void uncaughtExceptionHandler(NSException *exception) {
     mailController = [[MFMailComposeViewController alloc] init];
     mailController.mailComposeDelegate = self;
     mailController.delegate = self;
-    [mailController setSubject:@"[SRReporter] New Report"];
+    [mailController setSubject:@"[ViewGlass] New Report"];
     if (_defaultEmailAddress) {
         [mailController setToRecipients:@[_defaultEmailAddress]];
     }
@@ -363,7 +386,26 @@ void uncaughtExceptionHandler(NSException *exception) {
         self.mailController = nil;
         _composerDisplayed = NO;
     }
+    
 }
+
+#ifdef ENABLE_BACKEND_INTEGRATION
+
+#pragma mark - SRReportViewController delegate
+- (void)reportControllerDidPressSend:(SRReportViewController *)controller
+{
+    NSString *title = controller.title;
+    NSString *message = controller.message;
+    [self sendToServerWithTitle:title andMessage:message];
+    [controller dismissViewControllerAnimated:YES completion:nil];
+    _composerDisplayed = NO;
+}
+
+- (void)reportControllerDidPressCancel:(SRReportViewController *)controller
+{
+    [self viewControllerDidPressCancel:controller];
+}
+
 
 #pragma mark ShareReport Server API
 - (NSDictionary *)paramsForHTTPReportWithTitle:(NSString *)title andMessage:(NSString *)message
@@ -434,20 +476,6 @@ void uncaughtExceptionHandler(NSException *exception) {
     [window addSubview:_loadingView];
 }
 
-#pragma mark - SRReportViewController delegate
-- (void)reportControllerDidPressSend:(SRReportViewController *)controller
-{
-    NSString *title = controller.title;
-    NSString *message = controller.message;
-    [self sendToServerWithTitle:title andMessage:message];
-    [controller dismissViewControllerAnimated:YES completion:nil];
-    _composerDisplayed = NO;
-}
-
-- (void)reportControllerDidPressCancel:(SRReportViewController *)controller
-{
-    [self viewControllerDidPressCancel:controller];
-}
 
 #pragma mark - URL Connection Delegate
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSHTTPURLResponse *)response
@@ -476,5 +504,5 @@ void uncaughtExceptionHandler(NSException *exception) {
 {
     [self displayProgressBarWithPercentage:(CGFloat)totalBytesWritten/(CGFloat)totalBytesExpectedToWrite];
 }
-
+#endif
 @end

@@ -12,12 +12,11 @@
 #import <MessageUI/MFMailComposeViewController.h>
 #import "SRReportViewController.h"
 
-typedef NSString* (^SRCustomInformationBlock)();
 
 
 @interface SRReporter : NSObject <MFMailComposeViewControllerDelegate, UINavigationControllerDelegate, SRReportViewControllerDelegate, NSURLConnectionDataDelegate>
 
-@property (readwrite, nonatomic, copy) SRCustomInformationBlock customInformationBlock;
+
 @property (nonatomic, copy) NSString *defaultEmailAddress;
 @property (nonatomic, copy) NSURL *backendURL;
 @property (nonatomic, copy) NSString *applicationToken;
@@ -27,6 +26,9 @@ typedef NSString* (^SRCustomInformationBlock)();
 
 + (instancetype)reporter;
 
+- (BOOL)canSendNewReport;
+- (void)onCrash:(NSException *)exception;
+
 - (void)startListenerConnectedToBackendURL:(NSURL *)url;
 - (void)startListener;
 
@@ -34,18 +36,16 @@ typedef NSString* (^SRCustomInformationBlock)();
 
 - (void)setCustomInformationBlock:(NSString* (^)())block;
 
+- (void)setMailComposerCustomizer:(void (^)(MFMailComposeViewController * mailComposer))block;
+
+- (void)addAttachmentsToMailComposer:(MFMailComposeViewController *)mailComposer;
+
 /**
  Display one of the report composer (depends on the settings).
  Call this method if you want to link a button to the action of creating a new report.
  **/
 - (void)displayReportComposer;
 - (void)viewControllerDidPressCancel:(UIViewController *)viewController;
-- (BOOL)canSendNewReport;
-- (void)saveToCrashFile:(NSString *)crashContent;
-- (void)onCrash:(NSException *)exception;
 
-- (NSDictionary *)paramsForHTTPReportWithTitle:(NSString *)title andMessage:(NSString *)message;
-- (void)addAttachmentsToMailComposer:(MFMailComposeViewController *)mailComposer;
-- (NSMutableURLRequest *)requestForHTTPReportWithTitle:(NSString *)title andMessage:(NSString *)message;
 
 @end
