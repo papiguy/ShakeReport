@@ -130,8 +130,7 @@ void uncaughtExceptionHandler(NSException *exception) {
     return !_composerDisplayed;
 }
 
-- (void)displayReportComposer
-{
+- (void)displayReportComposer:(BOOL)attachImage{
     if (![self canSendNewReport]) {
         return;
     }
@@ -146,9 +145,14 @@ void uncaughtExceptionHandler(NSException *exception) {
         UIWindow *window = [[UIApplication sharedApplication] keyWindow];
         [self presentReportComposer:navController inViewController:window.rootViewController];
     } else {
-        [self showMailComposer];
+        [self showMailComposer:attachImage];
     }
     _composerDisplayed = YES;
+}
+
+- (void)displayReportComposer
+{
+    [self displayReportComposer:YES];
 }
 
 - (void)presentReportComposer:(UIViewController *)composerController inViewController:(UIViewController *)rootViewController
@@ -316,11 +320,20 @@ void uncaughtExceptionHandler(NSException *exception) {
 }
 
 #pragma mark Mail Composer
-- (void)addAttachmentsToMailComposer:(MFMailComposeViewController *)mailComposer
+
+- (void)addAttachmentsToMailComposer:(MFMailComposeViewController *)mailComposer {
+    [self addAttachmentsToMailComposer:mailComposer addImage:YES];
+}
+- (void)addAttachmentsToMailComposer:(MFMailComposeViewController *)mailComposer addImage:(BOOL)attachImage
 {
-    // Fetch Screenshot data
-    UIImage *screenshot = [self screenshot];
-    NSData *imageData = UIImageJPEGRepresentation(screenshot ,1.0);
+    if (attachImage){
+        // Fetch Screenshot data
+        UIImage *screenshot = [self screenshot];
+        NSData *imageData = UIImageJPEGRepresentation(screenshot ,1.0);
+        
+        // We attach all the information to the email
+        [mailComposer addAttachmentData:imageData mimeType:@"image/jpeg" fileName:@"screenshot.jpeg"];
+    }
     
     // Logs
     NSString *logs = [self logs];
@@ -340,8 +353,7 @@ void uncaughtExceptionHandler(NSException *exception) {
         [mailComposer addAttachmentData:crashData mimeType:@"text/plain" fileName:@"crash.log"];
     }
     
-    // We attach all the information to the email
-    [mailComposer addAttachmentData:imageData mimeType:@"image/jpeg" fileName:@"screenshot.jpeg"];
+    
     [mailComposer addAttachmentData:logsData mimeType:@"text/plain" fileName:@"console.log"];
     [mailComposer addAttachmentData:viewData mimeType:@"text/plain" fileName:@"viewDump.log"];
     
@@ -360,7 +372,11 @@ void uncaughtExceptionHandler(NSException *exception) {
     }
 }
 
-- (void)showMailComposer
+- (void)showMailComposer {
+    [self showMailComposer:YES];
+}
+
+- (void)showMailComposer:(BOOL)attachImage
 {
     if (mailController) {
         return;
@@ -373,7 +389,7 @@ void uncaughtExceptionHandler(NSException *exception) {
         [mailController setToRecipients:@[_defaultEmailAddress]];
     }
     mailController.modalPresentationStyle = UIModalPresentationPageSheet;
-    [self addAttachmentsToMailComposer:mailController];
+    [self addAttachmentsToMailComposer:mailController addImage:attachImage];
     UIWindow *window = [[UIApplication sharedApplication] keyWindow];
     [self presentReportComposer:mailController inViewController:window.rootViewController];
     _composerDisplayed = YES;
