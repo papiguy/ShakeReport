@@ -381,6 +381,12 @@ void uncaughtExceptionHandler(NSException *exception) {
     if (mailController) {
         return;
     }
+    if (![MFMailComposeViewController canSendMail]){
+        
+        [self showMessage:@"Unable to send email" withTitle:@"View Glass: Error"];
+        return;
+    }
+    
     mailController = [[MFMailComposeViewController alloc] init];
     mailController.mailComposeDelegate = self;
     mailController.delegate = self;
@@ -403,6 +409,24 @@ void uncaughtExceptionHandler(NSException *exception) {
         _composerDisplayed = NO;
     }
     
+}
+
+-(void)showMessage:(NSString*)message withTitle:(NSString *)title
+{
+    
+    UIAlertController * alert=   [UIAlertController
+                                  alertControllerWithTitle:title
+                                  message:message
+                                  preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
+        
+        //do something when click button
+    }];
+    [alert addAction:okAction];
+    UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+    UIViewController *vc = [window rootViewController];
+    [vc presentViewController:alert animated:YES completion:nil];
 }
 
 - (void)reportControllerDidPressSend:(SRReportViewController *)controller {
