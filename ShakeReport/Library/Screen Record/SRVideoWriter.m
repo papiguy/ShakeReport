@@ -15,7 +15,7 @@
 - (id)initWithRecordable:(id<SRRecordable>)recordable options:(CRRecorderOptions)options {
   if ((self = [super init])) {
     _options = options;
-    _recordables = [NSMutableArray arrayWithObject:recordable];
+    _recordables = [@[recordable] mutableCopy];
     
     if ((_options & CRRecorderOptionUserCameraRecording) == CRRecorderOptionUserCameraRecording) {
 #if !TARGET_IPHONE_SIMULATOR
@@ -51,7 +51,7 @@
 }
 
 - (BOOL)isRecording {
-  return !!_writer;
+  return _writer != nil;
 }
 
 - (BOOL)start:(NSError **)error {
@@ -73,16 +73,12 @@
   }
   [_video start];
 
-  NSDictionary *videoCompressionProperties = [NSDictionary dictionaryWithObjectsAndKeys:
-                                              [NSNumber numberWithDouble:1024.0 * 1024.0], AVVideoAverageBitRateKey,
-                                              nil];
+  NSDictionary *videoCompressionProperties = @{AVVideoAverageBitRateKey: @(1024.0 * 1024.0)};
 
-  NSDictionary *videoSettings = [NSDictionary dictionaryWithObjectsAndKeys:
-                                 AVVideoCodecH264, AVVideoCodecKey,
-                                 [NSNumber numberWithInt:_videoSize.width], AVVideoWidthKey,
-                                 [NSNumber numberWithInt:_videoSize.height], AVVideoHeightKey,
-                                 videoCompressionProperties, AVVideoCompressionPropertiesKey,
-                                 nil];
+  NSDictionary *videoSettings = @{AVVideoCodecKey: AVVideoCodecH264,
+          AVVideoWidthKey: [NSNumber numberWithInt:_videoSize.width],
+          AVVideoHeightKey: [NSNumber numberWithInt:_videoSize.height],
+          AVVideoCompressionPropertiesKey: videoCompressionProperties};
   
   _writerInput = [AVAssetWriterInput assetWriterInputWithMediaType:AVMediaTypeVideo outputSettings:videoSettings];
   if (!_writerInput) {
@@ -92,7 +88,7 @@
   
   _writerInput.expectsMediaDataInRealTime = YES;
   NSDictionary *bufferAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-                                    [NSNumber numberWithInt:kCVPixelFormatType_32ARGB], kCVPixelBufferPixelFormatTypeKey, nil];
+          @(kCVPixelFormatType_32ARGB), kCVPixelBufferPixelFormatTypeKey, nil];
   
   _bufferAdapter = [AVAssetWriterInputPixelBufferAdaptor assetWriterInputPixelBufferAdaptorWithAssetWriterInput:_writerInput sourcePixelBufferAttributes:bufferAttributes];
   
@@ -128,14 +124,12 @@
                                          nil];
     */
 
-    NSDictionary *audioOutputSettings = [NSDictionary dictionaryWithObjectsAndKeys:
-                                         [NSNumber numberWithInt:kAudioFormatMPEG4AAC], AVFormatIDKey,
-                                         [NSNumber numberWithInt:12000], AVSampleRateKey,
-                                         [NSNumber numberWithInt:12000], AVEncoderBitRateKey,
-                                         //[NSNumber numberWithInt:AVAudioQualityLow], AVEncoderAudioQualityKey,
-                                         [NSNumber numberWithInt:1], AVNumberOfChannelsKey,
-                                         [NSData dataWithBytes:&acl length:sizeof(acl)], AVChannelLayoutKey,
-                                         nil];
+    NSDictionary *audioOutputSettings = @{AVFormatIDKey: @(kAudioFormatMPEG4AAC),
+            AVSampleRateKey: @12000,
+            AVEncoderBitRateKey: @12000,
+            //[NSNumber numberWithInt:AVAudioQualityLow], AVEncoderAudioQualityKey,
+            AVNumberOfChannelsKey: @1,
+            AVChannelLayoutKey: [NSData dataWithBytes:&acl length:sizeof(acl)]};
 
     _audioWriterInput = [AVAssetWriterInput assetWriterInputWithMediaType:AVMediaTypeAudio outputSettings:audioOutputSettings];
     _audioWriterInput.expectsMediaDataInRealTime = YES;
@@ -300,7 +294,7 @@
 #pragma mark Events
  
 - (id<SRRecordable>)recordable {
-  return [_recordables objectAtIndex:0];
+  return _recordables[0];
 }
 
 - (UIColor *)_deriveColor:(UIColor *)color percentAlpha:(CGFloat)percentAlpha {

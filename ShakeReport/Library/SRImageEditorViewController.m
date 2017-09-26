@@ -131,7 +131,7 @@
 {
     SRReportViewController *controller = [SRReportViewController composer];
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *filePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"screenshot.png"];
+    NSString *filePath = [paths[0] stringByAppendingPathComponent:@"screenshot.png"];
     [UIImagePNGRepresentation(_screenshotImageView.image) writeToFile:filePath atomically:YES];
     [self.navigationController pushViewController:controller animated:YES];
 }

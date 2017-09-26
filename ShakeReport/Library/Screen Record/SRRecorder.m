@@ -127,7 +127,7 @@
 - (NSString * )screenCaptureVideoPath
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *documentsDirectory = paths[0];
     NSString *myPathDocs =  [documentsDirectory stringByAppendingPathComponent:@"screen_capture.mov"];
     return myPathDocs;
 }
@@ -151,12 +151,12 @@
     if (![[firstAsset tracksWithMediaType:AVMediaTypeVideo] count]) {
         return;
     }
-    [firstTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, firstAsset.duration) ofTrack:[[firstAsset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0] atTime:kCMTimeZero error:nil];
+    [firstTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, firstAsset.duration) ofTrack:[firstAsset tracksWithMediaType:AVMediaTypeVideo][0] atTime:kCMTimeZero error:nil];
     AVMutableVideoCompositionLayerInstruction *FirstlayerInstruction = [AVMutableVideoCompositionLayerInstruction videoCompositionLayerInstructionWithAssetTrack:firstTrack];
     [FirstlayerInstruction setTransform:CGAffineTransformMakeScale(0.f,0.f) atTime:firstAsset.duration];
     
     CMTimeRange videoTotalDuration;
-    NSMutableArray *layerInstructions = [NSMutableArray arrayWithObject:FirstlayerInstruction];
+    NSMutableArray *layerInstructions = [@[FirstlayerInstruction] mutableCopy];
     
     if ([SRUtils sr_exist:pathAsset2]) {
         AVURLAsset * secondAsset = [AVURLAsset URLAssetWithURL:[NSURL fileURLWithPath:pathAsset2] options:nil];
@@ -164,7 +164,7 @@
         if (![[secondAsset tracksWithMediaType:AVMediaTypeVideo] count]) {
             return;
         }
-        [secondTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, secondAsset.duration) ofTrack:[[secondAsset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0] atTime:firstAsset.duration error:nil];
+        [secondTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, secondAsset.duration) ofTrack:[secondAsset tracksWithMediaType:AVMediaTypeVideo][0] atTime:firstAsset.duration error:nil];
         AVMutableVideoCompositionLayerInstruction *SecondlayerInstruction = [AVMutableVideoCompositionLayerInstruction videoCompositionLayerInstructionWithAssetTrack:secondTrack];
         [layerInstructions addObject:SecondlayerInstruction];
         videoTotalDuration = CMTimeRangeMake(kCMTimeZero, CMTimeAdd(firstAsset.duration, secondAsset.duration));
@@ -177,7 +177,7 @@
     MainInstruction.layerInstructions = layerInstructions;
     
     AVMutableVideoComposition *MainCompositionInst = [AVMutableVideoComposition videoComposition];
-    MainCompositionInst.instructions = [NSArray arrayWithObject:MainInstruction];
+    MainCompositionInst.instructions = @[MainInstruction];
     MainCompositionInst.frameDuration = CMTimeMake(1, 30);
     MainCompositionInst.renderSize = [[[UIApplication sharedApplication].delegate window] bounds].size;
     

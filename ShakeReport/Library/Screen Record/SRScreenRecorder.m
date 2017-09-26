@@ -97,7 +97,7 @@
 - (void)keyboardWasShown:(NSNotification*)aNotification
 {
     NSDictionary* info = [aNotification userInfo];
-    CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+    CGSize kbSize = [info[UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
     _keyboardFrame = CGRectMake(0, 0, CGRectGetWidth(_window.bounds), kbSize.height);
     _keyboardUp = YES;
 }

@@ -67,7 +67,7 @@ size_t cr_ybase64_encode(IN const void * from, IN const size_t from_len, OUT voi
 }
 
 + (NSError *)sr_errorWithDomain:(NSString *)domain code:(NSInteger)code localizedDescription:(NSString *)localizedDescription {
-	NSDictionary *userInfo = [NSDictionary dictionaryWithObject:localizedDescription forKey:NSLocalizedDescriptionKey];
+	NSDictionary *userInfo = @{NSLocalizedDescriptionKey: localizedDescription};
 	return [NSError errorWithDomain:domain code:code userInfo:userInfo];
 }
 

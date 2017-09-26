@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		35F48739175B0F1100E8F4EA /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F48738175B0F1100E8F4EA /* NSData+Base64.m */; };
-		35F4873A175B0F1100E8F4EA /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F48738175B0F1100E8F4EA /* NSData+Base64.m */; };
 		35F4873E175B10C500E8F4EA /* NSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F4873D175B10C500E8F4EA /* NSString+HTML.m */; };
 		35F4873F175B10C500E8F4EA /* NSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F4873D175B10C500E8F4EA /* NSString+HTML.m */; };
 		3F20C06C188F46AA0085BD25 /* SRImageEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F20C06A188F46AA0085BD25 /* SRImageEditorViewController.m */; };
@@ -81,6 +79,7 @@
 		3FEE83AB17E839620037A60A /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FEE83AA17E839620037A60A /* AVFoundation.framework */; };
 		3FEE83AD17E839670037A60A /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FEE83AC17E839670037A60A /* CoreMedia.framework */; };
 		3FEE83AF17E8396D0037A60A /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FEE83AE17E8396D0037A60A /* CoreVideo.framework */; };
+		79171B53479D9E1850C04DAC /* libPods-ShakeReport.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C14B62EC4A50038D4DD19C6 /* libPods-ShakeReport.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -94,8 +93,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		35F48737175B0F1100E8F4EA /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+Base64.h"; path = "Library/NSData+Base64.h"; sourceTree = "<group>"; };
-		35F48738175B0F1100E8F4EA /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+Base64.m"; path = "Library/NSData+Base64.m"; sourceTree = "<group>"; };
+		2E84BBA56AFBF40EAC6CA1BF /* Pods-ShakeReport.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShakeReport.release.xcconfig"; path = "Pods/Target Support Files/Pods-ShakeReport/Pods-ShakeReport.release.xcconfig"; sourceTree = "<group>"; };
 		35F4873C175B10C500E8F4EA /* NSString+HTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+HTML.h"; path = "Library/NSString+HTML.h"; sourceTree = "<group>"; };
 		35F4873D175B10C500E8F4EA /* NSString+HTML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+HTML.m"; path = "Library/NSString+HTML.m"; sourceTree = "<group>"; };
 		3F20C069188F46AA0085BD25 /* SRImageEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SRImageEditorViewController.h; path = Library/SRImageEditorViewController.h; sourceTree = "<group>"; };
@@ -172,6 +170,8 @@
 		3FEE83AA17E839620037A60A /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		3FEE83AC17E839670037A60A /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		3FEE83AE17E8396D0037A60A /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		4C14B62EC4A50038D4DD19C6 /* libPods-ShakeReport.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ShakeReport.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9CAD837CDA7BE22A7E93C7C8 /* Pods-ShakeReport.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShakeReport.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ShakeReport/Pods-ShakeReport.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -190,6 +190,7 @@
 				3F5971051757217000971B9B /* UIKit.framework in Frameworks */,
 				3F5971071757217000971B9B /* Foundation.framework in Frameworks */,
 				3F5971091757217000971B9B /* CoreGraphics.framework in Frameworks */,
+				79171B53479D9E1850C04DAC /* libPods-ShakeReport.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -225,8 +226,6 @@
 		35F4873B175B10AB00E8F4EA /* helper */ = {
 			isa = PBXGroup;
 			children = (
-				35F48737175B0F1100E8F4EA /* NSData+Base64.h */,
-				35F48738175B0F1100E8F4EA /* NSData+Base64.m */,
 				35F4873C175B10C500E8F4EA /* NSString+HTML.h */,
 				35F4873D175B10C500E8F4EA /* NSString+HTML.m */,
 			);
@@ -257,6 +256,7 @@
 				3F59712E1757217000971B9B /* ShakeReportTests */,
 				3F5971031757217000971B9B /* Frameworks */,
 				3F5971021757217000971B9B /* Products */,
+				4B1763A744E7ADA37B5E688C /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -280,6 +280,7 @@
 				3F5971061757217000971B9B /* Foundation.framework */,
 				3F5971081757217000971B9B /* CoreGraphics.framework */,
 				3F5971281757217000971B9B /* SenTestingKit.framework */,
+				4C14B62EC4A50038D4DD19C6 /* libPods-ShakeReport.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -404,6 +405,15 @@
 			name = http;
 			sourceTree = "<group>";
 		};
+		4B1763A744E7ADA37B5E688C /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				9CAD837CDA7BE22A7E93C7C8 /* Pods-ShakeReport.debug.xcconfig */,
+				2E84BBA56AFBF40EAC6CA1BF /* Pods-ShakeReport.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -411,9 +421,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3F5971391757217000971B9B /* Build configuration list for PBXNativeTarget "ShakeReport" */;
 			buildPhases = (
+				19F2B534102584D1604F79A3 /* [CP] Check Pods Manifest.lock */,
 				3F5970FD1757217000971B9B /* Sources */,
 				3F5970FE1757217000971B9B /* Frameworks */,
 				3F5970FF1757217000971B9B /* Resources */,
+				B09C51B0AEA198537E61305D /* [CP] Embed Pods Frameworks */,
+				89D086898A6E584814C12FFB /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -450,7 +463,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = SR;
-				LastUpgradeCheck = 0460;
+				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = Jayztemplier;
 				TargetAttributes = {
 					3F5971001757217000971B9B = {
@@ -502,6 +515,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		19F2B534102584D1604F79A3 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ShakeReport-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		3F5971251757217000971B9B /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -514,6 +545,36 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+		89D086898A6E584814C12FFB /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ShakeReport/Pods-ShakeReport-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B09C51B0AEA198537E61305D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ShakeReport/Pods-ShakeReport-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -538,7 +599,6 @@
 				3F4F09F91758674F009EA80A /* SRMethodSwizzler.m in Sources */,
 				3FE19D7A17EE4BBA004F64B9 /* SRHTTPClient.m in Sources */,
 				3F20C06C188F46AA0085BD25 /* SRImageEditorViewController.m in Sources */,
-				35F48739175B0F1100E8F4EA /* NSData+Base64.m in Sources */,
 				3FE19CD517ED2245004F64B9 /* SRCGUtils.m in Sources */,
 				3FE19CD817ED2245004F64B9 /* SRScreenRecorder.m in Sources */,
 				35F4873E175B10C500E8F4EA /* NSString+HTML.m in Sources */,
@@ -565,7 +625,6 @@
 				3F59714C175725F000971B9B /* UIWindow+SRReporter.m in Sources */,
 				3F4F09FA1758674F009EA80A /* SRMethodSwizzler.m in Sources */,
 				3F37881E18089D0B00F60303 /* SRUIViewRecorder.m in Sources */,
-				35F4873A175B0F1100E8F4EA /* NSData+Base64.m in Sources */,
 				3F37881C18089D0B00F60303 /* SRScreenRecorder.m in Sources */,
 				3F37881818089D0B00F60303 /* SRCameraRecorder.m in Sources */,
 				3F37881718089CF400F60303 /* SRHTTPClient.m in Sources */,
@@ -620,25 +679,41 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
@@ -651,18 +726,33 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -671,6 +761,7 @@
 		};
 		3F59713A1757217000971B9B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9CAD837CDA7BE22A7E93C7C8 /* Pods-ShakeReport.debug.xcconfig */;
 			buildSettings = {
 				DEVELOPMENT_TEAM = 2GEQFESG2J;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -681,7 +772,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ShakeReport/ShakeReport-Prefix.pch";
 				INFOPLIST_FILE = "ShakeReport/ShakeReport-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.papiguy.ShakeReport;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -690,6 +781,7 @@
 		};
 		3F59713B1757217000971B9B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2E84BBA56AFBF40EAC6CA1BF /* Pods-ShakeReport.release.xcconfig */;
 			buildSettings = {
 				DEVELOPMENT_TEAM = 2GEQFESG2J;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -700,7 +792,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ShakeReport/ShakeReport-Prefix.pch";
 				INFOPLIST_FILE = "ShakeReport/ShakeReport-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.papiguy.ShakeReport;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -718,6 +810,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ShakeReport/ShakeReport-Prefix.pch";
 				INFOPLIST_FILE = "ShakeReportTests/ShakeReportTests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.jayztemplier.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
@@ -735,6 +828,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ShakeReport/ShakeReport-Prefix.pch";
 				INFOPLIST_FILE = "ShakeReportTests/ShakeReportTests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.jayztemplier.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;

@@ -75,8 +75,8 @@
   _videoOutput = [[AVCaptureVideoDataOutput alloc] init];
   _videoOutput.alwaysDiscardsLateVideoFrames = YES;
   _videoOutput.videoSettings = [NSDictionary dictionaryWithObjectsAndKeys:
-                                [NSNumber numberWithUnsignedInt:kCVPixelFormatType_32BGRA], kCVPixelBufferPixelFormatTypeKey,
-                                nil];
+          @(kCVPixelFormatType_32BGRA), kCVPixelBufferPixelFormatTypeKey,
+                  nil];
   [_videoOutput setSampleBufferDelegate:self queue:_queue];
   
   if (![_captureSession canAddOutput:_videoOutput]) {

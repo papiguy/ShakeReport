@@ -11,6 +11,8 @@
 
 #import <Availability.h>
 
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "PrivateCategoryShouldBeNearImplementation"
 #if defined(__IPHONE_OS_VERSION_MIN_REQUIRED)
 #import <UIKit/UIKit.h>
 #endif
@@ -120,7 +122,7 @@ NSArray * SRQueryStringPairsFromKeyAndValue(NSString *key, id value) {
         // Sort dictionary keys to ensure consistent ordering in query string, which is important when deserializing potentially ambiguous sequences, such as an array of dictionaries
         NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"description" ascending:YES selector:@selector(caseInsensitiveCompare:)];
         for (id nestedKey in [dictionary.allKeys sortedArrayUsingDescriptors:@[ sortDescriptor ]]) {
-            id nestedValue = [dictionary objectForKey:nestedKey];
+            id nestedValue = dictionary[nestedKey];
             if (nestedValue) {
                 [mutableQueryStringComponents addObjectsFromArray:SRQueryStringPairsFromKeyAndValue((key ? [NSString stringWithFormat:@"%@[%@]", key, nestedKey] : nestedKey), nestedValue)];
             }
@@ -214,7 +216,7 @@ NSArray * SRQueryStringPairsFromKeyAndValue(NSString *key, id value) {
 #pragma clang diagnostic ignored "-Wgnu"
 #if defined(__IPHONE_OS_VERSION_MIN_REQUIRED)
     // User-Agent Header; see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.43
-    userAgent = [NSString stringWithFormat:@"%@/%@ (%@; iOS %@; Scale/%0.2f)", [[[NSBundle mainBundle] infoDictionary] objectForKey:(__bridge NSString *)kCFBundleExecutableKey] ?: [[[NSBundle mainBundle] infoDictionary] objectForKey:(__bridge NSString *)kCFBundleIdentifierKey], (__bridge id)CFBundleGetValueForInfoDictionaryKey(CFBundleGetMainBundle(), kCFBundleVersionKey) ?: [[[NSBundle mainBundle] infoDictionary] objectForKey:(__bridge NSString *)kCFBundleVersionKey], [[UIDevice currentDevice] model], [[UIDevice currentDevice] systemVersion], ([[UIScreen mainScreen] respondsToSelector:@selector(scale)] ? [[UIScreen mainScreen] scale] : 1.0f)];
+    userAgent = [NSString stringWithFormat:@"%@/%@ (%@; iOS %@; Scale/%0.2f)", [[NSBundle mainBundle] infoDictionary][(__bridge NSString *) kCFBundleExecutableKey] ?: [[NSBundle mainBundle] infoDictionary][(__bridge NSString *) kCFBundleIdentifierKey], (__bridge id) CFBundleGetValueForInfoDictionaryKey(CFBundleGetMainBundle(), kCFBundleVersionKey) ?: [[NSBundle mainBundle] infoDictionary][(__bridge NSString *) kCFBundleVersionKey], [[UIDevice currentDevice] model], [[UIDevice currentDevice] systemVersion], ([[UIScreen mainScreen] respondsToSelector:@selector(scale)] ? [[UIScreen mainScreen] scale] : 1.0f)];
 #elif defined(__MAC_OS_X_VERSION_MIN_REQUIRED)
     userAgent = [NSString stringWithFormat:@"%@/%@ (Mac OS X %@)", [[[NSBundle mainBundle] infoDictionary] objectForKey:(__bridge NSString *)kCFBundleExecutableKey] ?: [[[NSBundle mainBundle] infoDictionary] objectForKey:(__bridge NSString *)kCFBundleIdentifierKey], [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] ?: [[[NSBundle mainBundle] infoDictionary] objectForKey:(__bridge NSString *)kCFBundleVersionKey], [[NSProcessInfo processInfo] operatingSystemVersionString]];
 #endif
@@ -370,7 +372,7 @@ NSArray * SRQueryStringPairsFromKeyAndValue(NSString *key, id value) {
         return nil;
     }
 
-    self.stringEncoding = [aDecoder decodeIntegerForKey:@"stringEncoding"];
+    self.stringEncoding = (NSStringEncoding) [aDecoder decodeIntegerForKey:@"stringEncoding"];
     self.parameterEncoding = (SRHTTPClientParameterEncoding) [aDecoder decodeIntegerForKey:@"parameterEncoding"];
     self.registeredHTTPOperationClassNames = [aDecoder decodeObjectForKey:@"registeredHTTPOperationClassNames"];
     self.defaultHeaders = [aDecoder decodeObjectForKey:@"defaultHeaders"];
@@ -517,14 +519,14 @@ NSTimeInterval const kSRUploadStream3GSuggestedDelay = 0.2;
     NSParameterAssert(mimeType);
 
     if (![fileURL isFileURL]) {
-        NSDictionary *userInfo = [NSDictionary dictionaryWithObject:NSLocalizedStringFromTable(@"Expected URL to be a file URL", @"SRNetworking", nil) forKey:NSLocalizedFailureReasonErrorKey];
+        NSDictionary *userInfo = @{NSLocalizedFailureReasonErrorKey: NSLocalizedStringFromTable(@"Expected URL to be a file URL", @"SRNetworking", nil)};
         if (error != NULL) {
             *error = [[NSError alloc] initWithDomain:SRNetworkingErrorDomain code:NSURLErrorBadURL userInfo:userInfo];
         }
 
         return NO;
-    } else if ([fileURL checkResourceIsReachableAndReturnError:error] == NO) {
-        NSDictionary *userInfo = [NSDictionary dictionaryWithObject:NSLocalizedStringFromTable(@"File URL not reachable.", @"SRNetworking", nil) forKey:NSLocalizedFailureReasonErrorKey];
+    } else if (![fileURL checkResourceIsReachableAndReturnError:error]) {
+        NSDictionary *userInfo = @{NSLocalizedFailureReasonErrorKey: NSLocalizedStringFromTable(@"File URL not reachable.", @"SRNetworking", nil)};
         if (error != NULL) {
             *error = [[NSError alloc] initWithDomain:SRNetworkingErrorDomain code:NSURLErrorBadURL userInfo:userInfo];
         }
@@ -542,7 +544,7 @@ NSTimeInterval const kSRUploadStream3GSuggestedDelay = 0.2;
     bodyPart.body = fileURL;
 
     NSDictionary *fileAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:[fileURL path] error:nil];
-    bodyPart.bodyContentLength = [[fileAttributes objectForKey:NSFileSize] unsignedLongLongValue];
+    bodyPart.bodyContentLength = [fileAttributes[NSFileSize] unsignedLongLongValue];
 
     [self.bodyStream appendHTTPBodyPart:bodyPart];
 
@@ -643,8 +645,8 @@ NSTimeInterval const kSRUploadStream3GSuggestedDelay = 0.2;
 #pragma mark -
 
 @interface SRMultipartBodyStream () <NSCopying>
-@property (nonatomic, assign) NSStreamStatus streamStatus;
-@property (nonatomic, strong) NSError *streamError;
+@property (atomic, assign) NSStreamStatus streamStatus;
+@property (atomic, strong) NSError *streamError;
 @property (nonatomic, assign) NSStringEncoding stringEncoding;
 @property (nonatomic, strong) NSMutableArray *HTTPBodyParts;
 @property (nonatomic, strong) NSEnumerator *HTTPBodyPartEnumerator;
@@ -686,7 +688,7 @@ NSTimeInterval const kSRUploadStream3GSuggestedDelay = 0.2;
             bodyPart.hasFinalBoundary = NO;
         }
 
-        [[self.HTTPBodyParts objectAtIndex:0] setHasInitialBoundary:YES];
+        [self.HTTPBodyParts[0] setHasInitialBoundary:YES];
         [[self.HTTPBodyParts lastObject] setHasFinalBoundary:YES];
     }
 }
@@ -1019,3 +1021,5 @@ typedef enum {
 }
 
 @end
+
+#pragma clang diagnostic pop

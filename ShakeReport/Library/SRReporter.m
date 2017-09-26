@@ -109,7 +109,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 - (NSString *)logFilePath
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *documentsDirectory = paths[0];
     NSString *logPath = [documentsDirectory stringByAppendingPathComponent:@"console.log"];
     return logPath;
 }
@@ -160,7 +160,7 @@ void uncaughtExceptionHandler(NSException *exception) {
     if (rootViewController.presentedViewController) {
         [self presentReportComposer:composerController inViewController:rootViewController.presentedViewController];
     } else {
-        [rootViewController presentViewController:composerController animated:YES completion:NO];
+        [rootViewController presentViewController:composerController animated:YES completion:nil];
     }
 }
 
@@ -242,7 +242,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 - (NSString *)crashFilePath
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *documentsDirectory = paths[0];
     NSString *logPath = [documentsDirectory stringByAppendingPathComponent:@"crash.log"];
     return logPath;
 }
@@ -250,14 +250,14 @@ void uncaughtExceptionHandler(NSException *exception) {
 - (void)saveImageToDisk:(UIImage *)image
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *filePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"screenshot.png"];
+    NSString *filePath = [paths[0] stringByAppendingPathComponent:@"screenshot.png"];
     [UIImagePNGRepresentation(image) writeToFile:filePath atomically:YES];
 }
 
 - (UIImage *)imageFromDisk
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    UIImage *image = [UIImage imageWithContentsOfFile:[[paths objectAtIndex:0] stringByAppendingPathComponent:@"screenshot.png"]];
+    UIImage *image = [UIImage imageWithContentsOfFile:[paths[0] stringByAppendingPathComponent:@"screenshot.png"]];
     return image;
 }
 
@@ -395,7 +395,7 @@ void uncaughtExceptionHandler(NSException *exception) {
     _composerDisplayed = YES;
 }
 
-- (void)mailComposeController:(MFMailComposeViewController*)mailController didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error
+- (void)mailComposeController:(MFMailComposeViewController*)mc didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error
 {
     if (self.mailController) {
         [self.mailController dismissViewControllerAnimated:YES completion:nil];
@@ -404,6 +404,15 @@ void uncaughtExceptionHandler(NSException *exception) {
     }
     
 }
+
+- (void)reportControllerDidPressSend:(SRReportViewController *)controller {
+
+}
+
+- (void)reportControllerDidPressCancel:(SRReportViewController *)controller {
+
+}
+
 
 #ifdef ENABLE_BACKEND_INTEGRATION
 

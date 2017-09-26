@@ -29,4 +29,5 @@ TODO: Add long description of the pod here.
   s.ios.deployment_target = '8.0'
   s.public_header_files  = "ShakeReport/Library/**/*.h"
   s.frameworks = 'UIKit', 'MessageUI', 'QuartzCore' 
+  s.dependency  'NSData+Base64', '1.0.0'
 end
