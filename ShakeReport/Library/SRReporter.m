@@ -127,11 +127,12 @@ void uncaughtExceptionHandler(NSException *exception) {
 #pragma mark Report
 - (BOOL)canSendNewReport
 {
-    return !_composerDisplayed;
+    return !_composerDisplayed && [MFMailComposeViewController canSendMail];
 }
 
 - (void)displayReportComposer:(BOOL)attachImage{
     if (![self canSendNewReport]) {
+        [self showMessage:@"Unable to send email" withTitle:@"View Glass: Error"];
         return;
     }
     if(SR_LOGS_ENABLED) NSLog(@"Send New Report");
@@ -381,7 +382,7 @@ void uncaughtExceptionHandler(NSException *exception) {
     if (mailController) {
         return;
     }
-    if (![MFMailComposeViewController canSendMail]){
+    if (!self.canSendNewReport){
         
         [self showMessage:@"Unable to send email" withTitle:@"View Glass: Error"];
         return;
