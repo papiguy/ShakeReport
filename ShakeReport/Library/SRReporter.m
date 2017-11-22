@@ -395,7 +395,7 @@ void uncaughtExceptionHandler(NSException *exception) {
     if (_defaultEmailAddress) {
         [mailController setToRecipients:@[_defaultEmailAddress]];
     }
-    mailController.modalPresentationStyle = UIModalPresentationPageSheet;
+    mailController.modalPresentationStyle = UIModalPresentationOverFullScreen;
     [self addAttachmentsToMailComposer:mailController addImage:attachImage];
     UIWindow *window = [[UIApplication sharedApplication] keyWindow];
     [self presentReportComposer:mailController inViewController:window.rootViewController];
