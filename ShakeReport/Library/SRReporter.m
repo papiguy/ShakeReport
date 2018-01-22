@@ -395,6 +395,9 @@ void uncaughtExceptionHandler(NSException *exception) {
     if (_defaultEmailAddress) {
         [mailController setToRecipients:@[_defaultEmailAddress]];
     }
+    if (_ccEmailAddress) {
+        [mailController setCcRecipients:@[_ccEmailAddress]];
+    }
     mailController.modalPresentationStyle = UIModalPresentationOverFullScreen;
     [self addAttachmentsToMailComposer:mailController addImage:attachImage];
     UIWindow *window = [[UIApplication sharedApplication] keyWindow];

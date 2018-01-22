@@ -18,6 +18,7 @@
 
 
 @property (nonatomic, copy) NSString *defaultEmailAddress;
+@property (nonatomic, copy) NSString * ccEmailAddress;
 @property (nonatomic, copy) NSURL *backendURL;
 @property (nonatomic, copy) NSString *applicationToken;
 @property (nonatomic, assign) BOOL lastSessionCrashed;
