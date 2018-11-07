@@ -132,7 +132,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 
 - (void)displayReportComposer:(BOOL)attachImage{
     if (![self canSendNewReport]) {
-        [self showMessage:@"Apple Mail is not setup on this device. Please setup the Apple Mail app or email suppor@viewglass.com to give feedback." withTitle:@"Apple Mail Not Setup"];
+        [self showMessage:@"Apple Mail is not setup on this device. Please setup the Apple Mail app or email support@viewglass.com to give feedback." withTitle:@"Apple Mail Not Setup"];
         return;
     }
     if(SR_LOGS_ENABLED) NSLog(@"Send New Report");
@@ -384,7 +384,7 @@ void uncaughtExceptionHandler(NSException *exception) {
     }
     if (!self.canSendNewReport){
         
-        [self showMessage:@"Apple Mail is not setup on this device. Please setup the Apple Mail app or email suppor@viewglass.com to give feedback." withTitle:@"Apple Mail Not Setup"];
+        [self showMessage:@"Apple Mail is not setup on this device. Please setup the Apple Mail app or email support@viewglass.com to give feedback." withTitle:@"Apple Mail Not Setup"];
         return;
     }
     
