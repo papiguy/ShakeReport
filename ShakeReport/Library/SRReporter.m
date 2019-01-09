@@ -93,6 +93,8 @@ void uncaughtExceptionHandler(NSException *exception) {
 
 - (void)stopListener
 {
+    _composerDisplayed = NO;
+    mailController = nil;
 }
 
 
