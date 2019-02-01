@@ -12,8 +12,6 @@
 #import <MessageUI/MFMailComposeViewController.h>
 #import "SRReportViewController.h"
 
-@class SRReporter;
-
 @protocol SendFeedbackDelegate <NSObject>
 @required
 - (void) openSendFeedbackdMail:(NSData *)image;
@@ -23,7 +21,6 @@
 @interface SRReporter : NSObject <MFMailComposeViewControllerDelegate, UINavigationControllerDelegate, SRReportViewControllerDelegate, NSURLConnectionDataDelegate>
 
 @property (nonatomic, strong) id <SendFeedbackDelegate> delegate;
-@property (nonatomic, assign) BOOL sendFeedback;
 @property (nonatomic, copy) NSString *defaultEmailAddress;
 @property (nonatomic, copy) NSString * ccEmailAddress;
 @property (nonatomic, copy) NSURL *backendURL;
@@ -52,7 +49,6 @@
 - (void)addAttachmentsToMailComposer:(MFMailComposeViewController *)mailComposer;
 - (void)addAttachmentsToMailComposer:(MFMailComposeViewController *)mailComposer addImage:(BOOL)attachImage;
 
-- (void)addAttachmentsToMailsendFeedback:(BOOL)attachImage;
 /**
  Display one of the report composer (depends on the settings).
  Call this method if you want to link a button to the action of creating a new report.

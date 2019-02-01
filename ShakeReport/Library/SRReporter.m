@@ -66,7 +66,6 @@ void uncaughtExceptionHandler(NSException *exception) {
         _lastSessionCrashed = [self crashFlag];
         _displayReportComposerWhenShakeDevice = YES;
         _recordsCrashes = YES;
-        _sendFeedback = NO;
     }
     return self;
 }
@@ -130,8 +129,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 #pragma mark Report
 - (BOOL)canSendNewReport
 {
-    //return !_composerDisplayed && [MFMailComposeViewController canSendMail];
-    return TRUE;
+    return _delegate!= nil || (!_composerDisplayed && [MFMailComposeViewController canSendMail]);
 }
 
 - (void)displayReportComposer:(BOOL)attachImage{
@@ -150,9 +148,11 @@ void uncaughtExceptionHandler(NSException *exception) {
         UIWindow *window = [[UIApplication sharedApplication] keyWindow];
         [self presentReportComposer:navController inViewController:window.rootViewController];
     } else {
-        //[self showMailComposer:attachImage];
-        _sendFeedback = true;
-        [self sendFeedbackMailComposer:attachImage];
+        if (_delegate == nil){
+            [self showMailComposer:attachImage];
+        }else {
+            [self sendFeedbackMailComposer:attachImage];
+        }
     }
     _composerDisplayed = YES;
 }
@@ -385,15 +385,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 
 - (void) sendFeedbackMailComposer:(BOOL)attachImage {
     
-    if(_sendFeedback)
-    {
-        [self addAttachmentsToMailSendFeedback:attachImage];
-    }
-}
-
-- (void)addAttachmentsToMailSendFeedback:(BOOL)attachImage
-{
-    NSData *imageData;
+    NSData *imageData = nil;
     
     if (attachImage){
         // Fetch Screenshot data
