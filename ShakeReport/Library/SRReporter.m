@@ -129,7 +129,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 #pragma mark Report
 - (BOOL)canSendNewReport
 {
-    return !_composerDisplayed && [MFMailComposeViewController canSendMail];
+    return _delegate != nil || (!_composerDisplayed && [MFMailComposeViewController canSendMail]);
 }
 
 - (void)displayReportComposer:(BOOL)attachImage{
@@ -148,7 +148,11 @@ void uncaughtExceptionHandler(NSException *exception) {
         UIWindow *window = [[UIApplication sharedApplication] keyWindow];
         [self presentReportComposer:navController inViewController:window.rootViewController];
     } else {
-        [self showMailComposer:attachImage];
+        if (_delegate == nil){
+            [self showMailComposer:attachImage];
+        }else {
+            [self sendFeedbackMailComposer:attachImage];
+        }
     }
     _composerDisplayed = YES;
 }
@@ -377,6 +381,19 @@ void uncaughtExceptionHandler(NSException *exception) {
 
 - (void)showMailComposer {
     [self showMailComposer:YES];
+}
+
+- (void) sendFeedbackMailComposer:(BOOL)attachImage {
+    
+    NSData *imageData = nil;
+    
+    if (attachImage){
+        // Fetch Screenshot data
+        UIImage *screenshot = [self screenshot];
+        imageData = UIImageJPEGRepresentation(screenshot ,1.0);
+    }
+    
+    [_delegate openSendFeedbackdMail:imageData];
 }
 
 - (void)showMailComposer:(BOOL)attachImage

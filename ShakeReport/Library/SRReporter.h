@@ -12,11 +12,15 @@
 #import <MessageUI/MFMailComposeViewController.h>
 #import "SRReportViewController.h"
 
+@protocol SendFeedbackDelegate <NSObject>
+@required
+- (void) openSendFeedbackdMail:(NSData *)image;
+@end
 
 
 @interface SRReporter : NSObject <MFMailComposeViewControllerDelegate, UINavigationControllerDelegate, SRReportViewControllerDelegate, NSURLConnectionDataDelegate>
 
-
+@property (nonatomic, strong) id <SendFeedbackDelegate> delegate;
 @property (nonatomic, copy) NSString *defaultEmailAddress;
 @property (nonatomic, copy) NSString * ccEmailAddress;
 @property (nonatomic, copy) NSURL *backendURL;
@@ -35,6 +39,8 @@
 - (void)startListener;
 
 - (void)stopListener;
+
+- (void)sendFeedbackMailComposer:(BOOL)attachImage;
 
 - (void)setCustomInformationBlock:(NSString* (^)())block;
 
