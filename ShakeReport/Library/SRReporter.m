@@ -129,7 +129,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 #pragma mark Report
 - (BOOL)canSendNewReport
 {
-    return _delegate!= nil || (!_composerDisplayed && [MFMailComposeViewController canSendMail]);
+    return _delegate != nil || (!_composerDisplayed && [MFMailComposeViewController canSendMail]);
 }
 
 - (void)displayReportComposer:(BOOL)attachImage{
